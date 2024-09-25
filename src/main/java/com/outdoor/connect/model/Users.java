@@ -55,5 +55,5 @@ public class Users implements Serializable {
 
     private String verificationCode;
 
-    private LocalDateTime verificationCodeExpiration;
+    private LocalDateTime verificationCodeExpirationDate;
 }
