@@ -22,6 +22,12 @@ import com.outdoor.connect.model.Users;
 import com.outdoor.connect.security.service.JwtService;
 import com.outdoor.connect.service.UserService;
 
+/**
+ * 
+ * @author James Carl Oreto
+ * 
+ */
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -39,6 +45,7 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@RequestBody Users userCreate) {
         logger.info("UserController | createUser | START");
+        logger.info("UserController | createUser : " + userCreate.toString());
         Map<String, Object> map = userService.create(userCreate);
 
         return new ResponseEntity<>(map.get("user"), (HttpStatusCode) map.get("status"));

@@ -1,43 +1,36 @@
 package com.outdoor.connect.bean;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.outdoor.connect.model.Role;
 
-import com.outdoor.connect.model.Users;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class UserBean  implements UserDetails {
+/**
+ * 
+ * @author James Carl Oreto
+ * 
+ */
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class UserBean implements Serializable {
+
+    private int id;
 
     private String username;
+
     private String password;
-    private List<GrantedAuthority> authorities;
 
-    public UserBean(Users user) {
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.authorities = Arrays.stream(user.getRole().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
+    private String emailAddress;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+    private List<Role> roles;
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
+    private String role;
 }

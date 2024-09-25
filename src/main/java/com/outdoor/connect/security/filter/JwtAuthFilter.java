@@ -20,6 +20,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * @author James Carl Oreto
+ * 
+ */
+
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
@@ -52,7 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
-                        null, null);
+                        null, userDetails.getAuthorities());
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

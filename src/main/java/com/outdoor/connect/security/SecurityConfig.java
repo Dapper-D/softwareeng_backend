@@ -19,7 +19,14 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.outdoor.connect.security.filter.JwtAuthFilter;
+import com.outdoor.connect.security.handler.AppAuthenticationSuccessHandler;
 import com.outdoor.connect.security.service.impl.UserDetailServiceImpl;
+
+/**
+ * 
+ * @author James Carl Oreto
+ * 
+ */
 
 @Configuration
 @EnableWebSecurity
@@ -42,8 +49,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(r -> r
-                        .requestMatchers("/users/login").permitAll()
-                        .requestMatchers("/users/create/**", "/resources/**").permitAll()
+                        .requestMatchers("/users/login", "/users/create", "/resources/**", "/event/all").permitAll()
+                        .requestMatchers("/ad/**").hasAnyRole("ADMIN","ADMIN02")
                         .anyRequest().authenticated())
                 .sessionManagement(t -> t
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

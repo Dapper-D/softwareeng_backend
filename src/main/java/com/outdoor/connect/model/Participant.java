@@ -1,7 +1,6 @@
 package com.outdoor.connect.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -20,9 +19,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Model of Users
+ * Model of Participant
  * 
  * @author James Carl Oreto
+ * 
  */
 
 @Data
@@ -30,30 +30,41 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="oc_users")
-public class Users implements Serializable {
+@Table(name="oc_participant")
+public class Participant implements Serializable {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue ( strategy = GenerationType.IDENTITY )
     private Long id;
 
-    private String username;
+    private Users users;
 
-    private String password;
-
-    private String emailAddress;
+    private String name;
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "oc_user_role", 
+	@JoinTable(name = "oc_participants_liked_activities", 
 			joinColumns = @JoinColumn(
-				name = "userId",
+				name = "participantId",
 				referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn (
-				name = "roleId",
+				name = "event_type_id",
 				referencedColumnName = "id"))
-    private List<Role> roles;
+    private List<EventType> likedActivities;
 
-    private String verificationCode;
+    private String verifiedEmail;
 
-    private LocalDateTime verificationCodeExpiration;
+    @ManyToMany (fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "oc_participants_event_attended", 
+			joinColumns = @JoinColumn(
+				name = "participantId",
+				referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn (
+				name = "event_id",
+				referencedColumnName = "id"))
+    private List<Event> eventAttended;
+
+    private int participantRating;
+
+    private Boolean isCommentAllowed;
+
 }
